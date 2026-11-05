@@ -63,7 +63,9 @@ async function loadProducts(){
    }}
   );
 
-  if(!response.ok) throw new Error("Products load failed");
+  if(!response.ok) {
+  throw new Error("HTTP "+response.status+": "+await response.text());
+}
 
   const products=await response.json();
   status.textContent=products.length ? "" : "এখনও কোনো পণ্য যোগ করা হয়নি।";
@@ -88,7 +90,9 @@ async function loadProducts(){
    list.appendChild(card);
   });
  }catch(error){
-  status.textContent="পণ্য দেখাতে সমস্যা হচ্ছে। পরে আবার চেষ্টা করুন।";
+  status.textContent="Error: "+error.message;
+  console.error(error);
+}
  }
 }
 loadProducts();
